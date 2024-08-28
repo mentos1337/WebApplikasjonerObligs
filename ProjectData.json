@@ -1,7 +1,8 @@
-{"ProjectInformation": {
+{
+    "ProjectInformation": {
     "Id": 1,
     "Title": "Title",
     "Description": "Description",
-    "Author": "Author"
-}
+    "Image Source": "www.placeholder.com/300x"
+    }
 }
