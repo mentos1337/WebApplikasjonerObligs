@@ -1,0 +1,17 @@
+nav{
+    display: flex;
+    justify-content: flex-end;
+}
+
+nav ul{
+    display: flex;
+}
+
+ul li{
+    list-style: none;
+    padding: 1rem;
+}
+.CreateProject{
+    display: flex;
+    align-items: center;
+}
