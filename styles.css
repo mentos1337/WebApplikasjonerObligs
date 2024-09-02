@@ -15,3 +15,13 @@ ul li{
     display: flex;
     align-items: center;
 }
+
+.ViewProjectHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.ShowAllProjects{
+    height: 2rem;
+}
