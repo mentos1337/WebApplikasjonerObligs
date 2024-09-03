@@ -13,7 +13,7 @@
                 <li><a href="/home">Home</a></li>
                 <li><a href="/about">About</a></li>
                 <li><a href="/contact">Contact us</a></li>
-              </ul>
+            </ul>
         </nav>
     </header>
     <main>
@@ -22,19 +22,26 @@
         </header>
         <section class="CreateProject">
             <figure>
-                <img
+                <img id="projectImage"
                   src="https://placehold.co/250x250"
                   alt="Placeholder for project picture"
+                  width="250"
+                  height="250"
                 />
                 <figcaption>Add picture for project</figcaption>
-              </figure>
-              <form action="">
-                <input type="submit" value="Create Project"><br>
-                <label for="PTitle">Project Title</label><br>
-                <input type="text" id="PName" name="PName"><br>
+            </figure>
+            <form id="projectForm" action="">
+                <label for="PName">Project Title</label><br>
+                <input type="text" id="PName" name="PName" required><br>
+
                 <label for="Description">Project Description</label><br>
-                <textarea name="Description" id="Description"></textarea>
-              </form>
+                <textarea name="Description" id="Description" required></textarea><br>
+
+                <label for="projectImageInput">Select Project Image</label><br>
+                <input type="file" id="projectImageInput" name="projectImageInput" accept="image/*"><br>
+
+                <input type="submit" value="Create Project"><br>
+            </form>
         </section>
         <section class="ViewProjectHeader">
             <header>
@@ -44,10 +51,11 @@
         </section>
         <section class="DisplayProjects">
             <article>
-                <ul>
+                <ul id="Projects">
                 </ul>
             </article>
         </section>
     </main>
+    <script src="main.js"></script>
 </body>
 </html>
