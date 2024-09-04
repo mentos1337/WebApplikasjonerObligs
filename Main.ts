@@ -15,12 +15,32 @@ projectImageInput.addEventListener('change', (event) => {
 });
 
 
+
 projectForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
     const projectName = (document.getElementById('PName') as HTMLInputElement).value;
     const projectDescription = (document.getElementById('Description') as HTMLTextAreaElement).value;
-    
+
+    const fetchDataFromServer = async () => {
+        const response = await fetch("http://localhost:4000/json", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const result = await response.json();
+      
+        console.log(result);
+      
+        const id = document.getElementById("json");
+        if (!id) return;
+        for (const habit of result) {
+          const element = document.createElement("p");
+          element.textContent = habit.title;
+          id.appendChild(element);
+        }
+      };    
 
     console.log({ projectName, projectDescription, imageUrl: projectImage.src });
 
@@ -39,4 +59,5 @@ projectForm.addEventListener('submit', (event) => {
 
     projectForm.reset();
     projectImage.src = "https://placehold.co/250x250";
+    fetchDataFromServer();
 });
