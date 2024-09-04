@@ -1,8 +1,10 @@
 {
-    "ProjectInformation": {
-    "Id": 1,
-    "Title": "Title",
-    "Description": "Description",
-    "Image Source": "www.placeholder.com/300x"
+  "ProjectInformation": [
+    {
+      "Title": "Hei",
+      "Description": "Hei",
+      "Image Source": "https://placehold.co/250x250",
+      "Id": 1
     }
+  ]
 }

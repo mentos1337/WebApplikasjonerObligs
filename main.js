@@ -35,60 +35,96 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-var projectForm = document.getElementById('projectForm');
-var projectImageInput = document.getElementById('projectImageInput');
-var projectImage = document.getElementById('projectImage');
-projectImageInput.addEventListener('change', function (event) {
-    var _a;
-    var file = (_a = event.target.files) === null || _a === void 0 ? void 0 : _a[0];
-    if (file) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var _a;
-            projectImage.src = (_a = e.target) === null || _a === void 0 ? void 0 : _a.result;
-        };
-        reader.readAsDataURL(file);
-    }
-});
-projectForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-    var projectName = document.getElementById('PName').value;
-    var projectDescription = document.getElementById('Description').value;
-    var fetchDataFromServer = function () { return __awaiter(_this, void 0, void 0, function () {
-        var response, result, id, _i, result_1, habit, element;
+document.addEventListener('DOMContentLoaded', function () {
+    var projectForm = document.getElementById('projectForm');
+    var projectImageInput = document.getElementById('projectImageInput');
+    var projectImage = document.getElementById('projectImage');
+    projectImageInput.addEventListener('change', function (event) {
+        var _a;
+        var file = (_a = event.target.files) === null || _a === void 0 ? void 0 : _a[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var _a;
+                projectImage.src = (_a = e.target) === null || _a === void 0 ? void 0 : _a.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    projectForm.addEventListener('submit', function (event) { return __awaiter(_this, void 0, void 0, function () {
+        var projectName, projectDescription, newProject;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch("http://localhost:4000/json", {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    })];
+                case 0:
+                    event.preventDefault();
+                    projectName = document.getElementById('PName').value;
+                    projectDescription = document.getElementById('Description').value;
+                    newProject = {
+                        Title: projectName,
+                        Description: projectDescription,
+                        "Image Source": projectImage.src,
+                    };
+                    // Send the project data to the backend
+                    return [4 /*yield*/, fetch("http://localhost:4000/json", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(newProject),
+                        })];
                 case 1:
-                    response = _a.sent();
-                    return [4 /*yield*/, response.json()];
+                    // Send the project data to the backend
+                    _a.sent();
+                    // Fetch and display the updated project list
+                    return [4 /*yield*/, fetchDataFromServer()];
                 case 2:
-                    result = _a.sent();
-                    console.log(result);
-                    id = document.getElementById("json");
-                    if (!id)
-                        return [2 /*return*/];
-                    for (_i = 0, result_1 = result; _i < result_1.length; _i++) {
-                        habit = result_1[_i];
-                        element = document.createElement("p");
-                        element.textContent = habit.title;
-                        id.appendChild(element);
-                    }
+                    // Fetch and display the updated project list
+                    _a.sent();
+                    projectForm.reset();
+                    projectImage.src = "https://placehold.co/250x250";
                     return [2 /*return*/];
             }
         });
+    }); });
+    var fetchDataFromServer = function () { return __awaiter(_this, void 0, void 0, function () {
+        var response, projects, projectsList_1, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch("http://localhost:4000/json", {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        })];
+                case 1:
+                    response = _a.sent();
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return [4 /*yield*/, response.json()];
+                case 2:
+                    projects = _a.sent();
+                    projectsList_1 = document.getElementById('Projects');
+                    if (!projectsList_1)
+                        return [2 /*return*/];
+                    // Clear the list before repopulating
+                    projectsList_1.innerHTML = '';
+                    projects.forEach(function (project) {
+                        var listItem = document.createElement('li');
+                        listItem.innerHTML = "\n              <img src=\"".concat(project["Image Source"], "\" alt=\"").concat(project.Title, "\">\n              <article>\n                  <h3>").concat(project.Title, "</h3>\n                  <p>").concat(project.Description, "</p>\n              </article>\n              ");
+                        projectsList_1.appendChild(listItem);
+                    });
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _a.sent();
+                    console.error('Error fetching data:', error_1);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
     }); };
-    console.log({ projectName: projectName, projectDescription: projectDescription, imageUrl: projectImage.src });
-    var projectsList = document.getElementById('Projects');
-    var listItem = document.createElement('li');
-    listItem.innerHTML = "\n    <img src=\"".concat(projectImage.src, "\" alt=\"").concat(projectName, "\">\n    <article>\n        <h3>").concat(projectName, "</h3>\n        <p>").concat(projectDescription, "</p>\n    </article>\n");
-    projectsList === null || projectsList === void 0 ? void 0 : projectsList.appendChild(listItem);
-    projectForm.reset();
-    projectImage.src = "https://placehold.co/250x250";
+    // Fetch and display the existing projects on page load
     fetchDataFromServer();
 });
