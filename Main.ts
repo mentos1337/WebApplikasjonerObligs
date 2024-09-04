@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
           "Image Source": projectImage.src,
       };
 
-      // Send the project data to the backend
       await fetch("http://localhost:4000/json", {
           method: "POST",
           headers: {
@@ -35,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify(newProject),
       });
 
-      // Fetch and display the updated project list
       await fetchDataFromServer();
 
       projectForm.reset();
@@ -58,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
           const projectsList = document.getElementById('Projects');
           if (!projectsList) return;
 
-          // Clear the list before repopulating
           projectsList.innerHTML = '';
 
           projects.forEach((project: any) => {
@@ -77,6 +74,5 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   };
 
-  // Fetch and display the existing projects on page load
   fetchDataFromServer();
 });
