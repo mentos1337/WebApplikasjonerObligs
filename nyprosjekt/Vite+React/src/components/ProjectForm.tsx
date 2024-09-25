@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Project } from '../App';
+import { Project } from './Types';
 
-interface ProjectFormProps {
+type ProjectFormProps = {
   onSubmit: (newProject: Project) => void;
 }
 

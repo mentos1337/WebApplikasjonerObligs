@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProjectForm from './components/ProjectForm';
 import ProjectList from './components/ProjectList';
-
-export interface Project {
-  Title: string;
-  Description: string;
-  "Image Source": string;
-}
+import {Project} from './components/Types';
 
 const App: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
