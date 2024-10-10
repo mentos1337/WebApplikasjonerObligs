@@ -8,24 +8,25 @@ type ProjectListProps = {
 const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
   return (
     <section className="DisplayProjects">
-      <article>
+      <div>
         <ul id="Projects">
           {projects.map((project, index) => (
             <li key={index}>
-              <article>
-                <img
-                  src={project["Image Source"]}
-                  alt={project.Title}
-                  width="250"
-                  height="250"
-                />
+              <img 
+                id="projectImage"
+                src={project["Image Source"]}
+                alt={project.Title}
+                width="250"
+                height="250"
+              />
+              <article className='ProjectDescription'>
                 <h3>{project.Title}</h3>
                 <p>{project.Description}</p>
               </article>
             </li>
           ))}
         </ul>
-      </article>
+      </div>
     </section>
   );
 };
