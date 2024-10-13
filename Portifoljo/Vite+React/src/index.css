@@ -8,7 +8,13 @@ button {
 }
 
 button:hover {
-  transform: scale(1.1); 
+  transform: var(--hover-transform);
+  box-shadow: var(--hover-box-shadow);
+}
+
+button:focus {
+  outline: 2px solid #007bff;
+  transform: scale(1.1);
   box-shadow: 0 0 15px 5px rgba(0, 1, 2, 0.7);
 }
 
@@ -54,50 +60,61 @@ ul li {
 }
 
 #Projects li {
-  display: flex;
-  border: 1px solid #ccc;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 1rem;
-  background-color: #f9f9f9;
+  background-color: var(--bg-color);
+  gap: 1rem;
 }
-
 
 #Projects li #projectImage {
   width: 150px;
   height: 150px;
   border-radius: 8px;
-  margin-right: 20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
 
-#Projects li #projectImage:hover {
-  transform: var(--hover-transform);
-  box-shadow: var(--hover-box-shadow);
+.ProjectDescription {
+  margin: 0;
 }
-
 
 #Projects li h3 {
   margin: 0 0 5px 0;
   font-size: 1.2em;
-  color: #333;
+  color: var(--primary-text-color);
 }
 
 #Projects li p {
   margin: 0;
-  color: #555;
+  color: var(--secondary-text-color);
 }
 
+.deleteProject {
+  justify-self: end;
+  height: 3rem;
+  padding: 0.5rem 2rem;
+  margin-right: 2rem;
+  border: none;
+  background-color: #346eeb;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-button:focus {
-  outline: 2px solid #007bff;
-  transform: scale(1.1);
-  box-shadow: 0 0 15px 5px rgba(0, 1, 2, 0.7);
+.deleteProject:hover {
+  transform: var(--hover-transform);
+  box-shadow: var(--hover-box-shadow);
+  background-color: #d43c3c;
 }
 
 :root {
-  --hover-transform: scale(1.1);
+  --hover-transform: scale(1.5);
   --hover-box-shadow: 0 0 15px 5px rgba(0, 1, 2, 0.7);
   --border-color: #ccc;
   --bg-color: #f9f9f9;

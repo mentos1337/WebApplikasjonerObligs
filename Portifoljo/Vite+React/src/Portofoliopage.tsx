@@ -2,41 +2,50 @@ import React, { useState, useEffect } from 'react';
 import ProjectForm from './components/ProjectForm';
 import ProjectList from './components/ProjectList';
 import {Project} from './components/Types';
+import { deleteProject, fetchProjects, submitProject } from './services/api';
 
 const Portofoliopage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchDataFromServer();
-  }, []);
+    const initializeData = async () => {
+      console.log('Fetching data...');
+      setLoading(true);
+      try {
+        const data = await fetchProjects();
+        setProjects(data);
+      } catch (error) {
+        setError('Feilet ved henting av data');
+      } finally {
+        setLoading(false);
+        console.log('Finished fetching data');
+      }
+    };
 
-  const fetchDataFromServer = async () => {
-    try {
-      const response = await fetch('http://localhost:4000/json', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
-      setProjects(data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+    initializeData();
+  }, []);
 
   const handleProjectSubmit = async (newProject: Project) => {
     try {
-      await fetch('http://localhost:4000/json', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newProject),
-      });
-      fetchDataFromServer();
+      await submitProject(newProject);
+      const data = await fetchProjects();
+      setProjects(data);
     } catch (error) {
-      console.error('Error submitting project:', error);
+      setError('Error submitting project');
+    }
+  };
+
+  const handleDeleteProject = async (projectId: string) => {
+    setLoading(true);
+    try {
+      await deleteProject(projectId);
+      setProjects((prevProjects) => prevProjects.filter((project) => project.Id !== projectId));
+    } catch (error) {
+      setError('Error deleting project');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,18 +54,20 @@ const Portofoliopage: React.FC = () => {
       <header>
         <h1>New Project</h1>
       </header>
+      {loading && <p>Henter data...</p>}
+      {error && <p className="error">{error}</p>}
       <ProjectForm onSubmit={handleProjectSubmit} />
       <section className="ViewProjectHeader">
         <header>
           <h2>Projects</h2>
         </header>
-        <button className="ShowAllProjects" onClick={fetchDataFromServer}>
+        <button className="ShowAllProjects" onClick={async () => { const data = await fetchProjects(); setProjects(data); } }>
           Show all projects
         </button>
       </section>
-      <ProjectList projects={projects} />
-      </>
+      <ProjectList projects={projects} onDelete={handleDeleteProject} />
+    </>
   );
 };
-
-export default Portofoliopage;
+  
+  export default Portofoliopage;

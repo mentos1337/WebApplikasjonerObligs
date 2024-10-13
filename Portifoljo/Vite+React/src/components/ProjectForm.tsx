@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Project } from './Types';
+import { v4 as uuidv4 } from 'uuid';
+import { Project } from "./Types";
+import { useState } from "react";
 
 type ProjectFormProps = {
   onSubmit: (newProject: Project) => void;
@@ -24,6 +25,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newProject = {
+      Id: uuidv4(), // Generate a unique ID using the uuid library
       Title: projectName,
       Description: projectDescription,
       "Image Source": projectImage,

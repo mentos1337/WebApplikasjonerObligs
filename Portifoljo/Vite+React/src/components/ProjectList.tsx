@@ -3,15 +3,16 @@ import { Project } from './Types';
 
 type ProjectListProps = {
   projects: Project[];
+  onDelete: (projectId: string) => void;
 }
 
-const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
+const ProjectList: React.FC<ProjectListProps> = ({ projects, onDelete }) => {
   return (
     <section className="DisplayProjects">
       <div>
         <ul id="Projects">
-          {projects.map((project, index) => (
-            <li key={index}>
+          {projects.map((project) => (
+            <li key={project.Id}>
               <img 
                 id="projectImage"
                 src={project["Image Source"]}
@@ -23,6 +24,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                 <h3>{project.Title}</h3>
                 <p>{project.Description}</p>
               </article>
+              <button className='deleteProject' onClick={() => onDelete(project.Id)}>Delete</button>
             </li>
           ))}
         </ul>

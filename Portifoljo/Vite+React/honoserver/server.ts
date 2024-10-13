@@ -27,7 +27,6 @@ app.post("/json", async (c) => {
     const data = await readFile("./honoserver/ProjectData.json", "utf-8");
     const parsedData = JSON.parse(data);
 
-    newProject.Id = parsedData.ProjectInformation.length + 1;
 
     parsedData.ProjectInformation.push(newProject);
 
@@ -38,6 +37,30 @@ app.post("/json", async (c) => {
     return c.json({ message: "Error writing data", error }, 500);
   }
 });
+
+app.delete("/json/:id", async (c) => {
+  try {
+    const projectId = c.req.param("id");
+    
+    const data = await readFile("./honoserver/ProjectData.json", "utf-8");
+    const parsedData = JSON.parse(data);
+
+    const projectIndex = parsedData.ProjectInformation.findIndex((project: { Id: string }) => project.Id === projectId);
+    
+    if (projectIndex === -1) {
+      return c.json({ message: "Project not found" }, 404);
+    }
+
+    parsedData.ProjectInformation.splice(projectIndex, 1);
+
+    await writeFile("./honoserver/ProjectData.json", JSON.stringify(parsedData, null, 2));
+
+    return c.json({ message: "Project deleted successfully!" });
+  } catch (error) {
+    return c.json({ message: "Error deleting data", error }, 500);
+  }
+});
+
 
 const port = 4000;
 
