@@ -1,6 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Project } from "./Types";
 import { useState } from "react";
+import { formatImage } from '../helpers/format';
+import { projectSchema } from '../helpers/validate';
+import { z } from 'zod';
 
 type ProjectFormProps = {
   onSubmit: (newProject: Project) => void;
@@ -10,6 +13,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit }) => {
   const [projectName, setProjectName] = useState<string>('');
   const [projectDescription, setProjectDescription] = useState<string>('');
   const [projectImage, setProjectImage] = useState<string>('https://placehold.co/250x250');
+  const [error, setError] = useState<string | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -24,16 +28,30 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newProject = {
-      Id: uuidv4(), // Generate a unique ID using the uuid library
+    const newProject: Project = {
+      Id: uuidv4(),
       Title: projectName,
       Description: projectDescription,
       "Image Source": projectImage,
+      createdAt: new Date(),
     };
-    onSubmit(newProject);
-    setProjectName('');
-    setProjectDescription('');
-    setProjectImage('https://placehold.co/250x250');
+
+
+    try {
+      projectSchema.parse({
+        ...newProject,
+        createdAt: newProject.createdAt.toISOString(),
+      });
+      setError(null);
+      onSubmit(newProject);
+      setProjectName('');
+      setProjectDescription('');
+      setProjectImage('https://placehold.co/250x250');
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        setError("Validation failed: " + err.errors.map(e => e.message).join(", "));
+      }
+    }
   };
 
   return (
@@ -41,7 +59,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit }) => {
       <figure>
         <img
           id="projectImage"
-          src={projectImage}
+          src={formatImage(projectImage)}
           alt="Placeholder for project picture"
           width="250"
           height="250"
@@ -78,6 +96,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit }) => {
         /><br />
 
         <input type="submit" value="Create Project" /><br />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
     </section>
   );

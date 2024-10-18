@@ -9,9 +9,7 @@ export default function Layout(props: LayoutProps) {
 
   return (
     <>
-      <header>
-        <Navigation />
-      </header>
+      <Navigation />
       {children}
       <Footer />
     </>
