@@ -1,42 +1,38 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ProjectForm from './components/ProjectForm';
 import ProjectList from './components/ProjectList';
-import {Project} from './components/Types';
 import { useProjects } from './hooks/useProjects';
+import { Project } from './components/Types';
 
 const Portofoliopage: React.FC = () => {
-
-  const { projects, loading, error, addProject, removeProject } = useProjects();
+  const { projects, loading, error, addOrUpdateProject, removeProject, editProject, currentProject } = useProjects();
 
   const handleProjectSubmit = async (newProject: Project) => {
-    await addProject(newProject);
+    await addOrUpdateProject(newProject);
   };
 
   const handleDeleteProject = async (projectId: string) => {
-    await removeProject(projectId); 
+    await removeProject(projectId);
   };
 
-  function fetchData(): void {
-    throw new Error('Function not implemented.');
-  }
+  const handleEditProject = (project: Project) => {
+    editProject(project);
+  };
 
   return (
     <>
       <header>
-        <h1>New Project</h1>
+        <h1>{currentProject ? 'Edit Project' : 'New Project'}</h1>
       </header>
       {loading && <p>Henter data...</p>}
       {error && <p className="error">{error}</p>}
-      <ProjectForm onSubmit={handleProjectSubmit} />
+      <ProjectForm onSubmit={handleProjectSubmit} currentProject={currentProject} />
       <section className="ViewProjectHeader">
         <header>
           <h2>Projects</h2>
         </header>
-        <button className="ShowAllProjects" onClick={() => fetchData()}>
-          Show all projects
-        </button>
       </section>
-      <ProjectList projects={projects} onDelete={handleDeleteProject} />
+      <ProjectList projects={projects} onDelete={handleDeleteProject} onEdit={handleEditProject} />
     </>
   );
 };

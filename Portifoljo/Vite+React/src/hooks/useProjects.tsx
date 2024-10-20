@@ -6,6 +6,7 @@ export function useProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [currentProject, setCurrentProject] = useState<Project | null>(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -23,11 +24,12 @@ export function useProjects() {
     fetchData();
   }, [fetchData]);
 
-  const addProject = async (newProject: Project) => {
+  const addOrUpdateProject = async (newProject: Project) => {
     setLoading(true);
     try {
       await submitProject(newProject);
       await fetchData();
+      setCurrentProject(null);
     } catch (error) {
       setError('Error submitting project');
     } finally {
@@ -47,12 +49,18 @@ export function useProjects() {
     }
   };
 
+  const editProject = (project: Project) => {
+    setCurrentProject(project);
+  };
+
   return {
     projects,
     loading,
     error,
+    currentProject,
     fetchData,
-    addProject,
+    addOrUpdateProject,
     removeProject,
+    editProject,
   };
 }

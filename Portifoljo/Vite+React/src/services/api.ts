@@ -22,7 +22,7 @@ export const fetchProjects = async () => {
 
     const projectsWithDate = parsedResult.data.map((project: any) => ({
       ...project,
-      createdAt: new Date(project.createdAt),
+      publishedAt: project.publishedAt ? new Date(project.publishedAt) : null,
     }));
 
     return projectsWithDate;
@@ -35,12 +35,20 @@ export const fetchProjects = async () => {
 
 export const submitProject = async (newProject: Project) => {
   try {
-    await fetch(endpoints.projects, {
-      method: 'POST',
+    const url = newProject.Id ? `${endpoints.projects}/${newProject.Id}` : endpoints.projects;
+    const method = newProject.Id ? 'PUT' : 'POST';
+
+    const projectToSubmit = {
+      ...newProject,
+      publishedAt: newProject.publishedAt ? newProject.publishedAt.toISOString() : undefined,
+    };
+
+    await fetch(url, {
+      method,
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(newProject),
+      body: JSON.stringify(projectToSubmit),
     });
   } catch (error) {
     console.error('Error submitting project:', error);

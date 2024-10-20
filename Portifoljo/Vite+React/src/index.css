@@ -1,44 +1,81 @@
+:root {
+  --hover-transform: scale(1.1);
+  --hover-box-shadow: 0 0 10px 2px rgba(0, 1, 2, 0.5);
+  --border-color: #219EBC;
+  --bg-color: #8ECAE6;
+  --primary-text-color: #023047;
+  --secondary-text-color: #FB8500;
+  --button-bg-color: #FFB703;
+  --button-hover-bg-color: #FB8500;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--primary-text-color);
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  background-color: var(--bg-color);
+  padding: 1rem 0;
+  color: var(--primary-text-color);
+}
+
 nav {
   display: flex;
   justify-content: flex-end;
+  background-color: var(--bg-color);
+  padding: 1rem;
 }
 
 button {
+  background-color: var(--button-bg-color);
+  color: var(--primary-text-color);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
+  background-color: var(--button-hover-bg-color);
   transform: var(--hover-transform);
   box-shadow: var(--hover-box-shadow);
 }
 
 button:focus {
-  outline: 2px solid #007bff;
-  transform: scale(1.1);
+  outline: 2px solid #219EBC;
+  transform: scale(1.05);
   box-shadow: 0 0 15px 5px rgba(0, 1, 2, 0.7);
-}
-
-nav ul {
-  display: flex;
-}
-
-ul li {
-  list-style: none;
-  padding: 1rem;
 }
 
 .CreateProject {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: var(--bg-color);
+  border-radius: 10px;
+  width: 20%;
+  margin: 0 auto;
 }
 
-.CreateProject #projectImage {
+#projectImage {
+  width: 250px;
+  height: 250px;
+  border: 2px solid var(--border-color);
+  padding: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.CreateProject #projectImage:hover {
+#projectImage:hover {
   transform: scale(1.1); 
-  box-shadow: 0 0 15px 5px rgba(0, 1, 2, 0.7);
+  box-shadow: var(--hover-box-shadow);
+}
+
+.CreateProject form {
+  display: flex;
+  flex-direction: column;
 }
 
 .ViewProjectHeader {
@@ -47,10 +84,6 @@ ul li {
   align-items: baseline;
   margin-left: 2rem;
   margin-right: 4rem;
-}
-
-.ShowAllProjects {
-  height: 2rem;
 }
 
 .Projects {
@@ -64,17 +97,17 @@ ul li {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 1.5rem;
   margin-bottom: 1rem;
-  background-color: var(--bg-color);
+  background-color: #ffffff;
   gap: 1rem;
 }
 
 #Projects li #projectImage {
   width: 150px;
   height: 150px;
-  border-radius: 8px;
+  border-radius: 4px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
@@ -100,7 +133,7 @@ ul li {
   padding: 0.5rem 2rem;
   margin-right: 2rem;
   border: none;
-  background-color: #346eeb;
+  background-color: var(--button-bg-color);
   color: white;
   border-radius: 8px;
   cursor: pointer;
@@ -110,14 +143,27 @@ ul li {
 .deleteProject:hover {
   transform: var(--hover-transform);
   box-shadow: var(--hover-box-shadow);
-  background-color: #d43c3c;
+  background-color: var(--button-hover-bg-color);
 }
 
-:root {
-  --hover-transform: scale(1.5);
-  --hover-box-shadow: 0 0 15px 5px rgba(0, 1, 2, 0.7);
-  --border-color: #ccc;
-  --bg-color: #f9f9f9;
-  --primary-text-color: #333;
-  --secondary-text-color: #555;
+input[type="submit"] {
+  background-color: var(--button-bg-color);
+  color: var(--primary-text-color);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--button-hover-bg-color);
+  transform: var(--hover-transform);
+  box-shadow: var(--hover-box-shadow);
+}
+
+input[type="submit"]:focus {
+  outline: 2px solid #219EBC;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px 5px rgba(0, 1, 2, 0.7);
 }
