@@ -1,25 +1,24 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { Project } from "./Types";
 import { useState, useEffect } from "react";
-import { formatImage } from '../helpers/format';
-import { projectSchema } from '../helpers/validate';
-import { z } from 'zod';
+import { formatImage } from "../helpers/format";
+import { projectSchema } from "../helpers/validate";
+import { z } from "zod";
 
 type ProjectFormProps = {
   onSubmit: (newProject: Project) => void;
   currentProject?: Project | null;
-}
+};
 
 const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, currentProject }) => {
-  const [projectName, setProjectName] = useState<string>('');
-  const [projectDescription, setProjectDescription] = useState<string>('');
-  const [projectImage, setProjectImage] = useState<string>('https://placehold.co/250x250');
+  const [projectName, setProjectName] = useState<string>("");
+  const [projectDescription, setProjectDescription] = useState<string>("");
+  const [projectImage, setProjectImage] = useState<string>("https://placehold.co/250x250");
   const [isPublic, setIsPublic] = useState<boolean>(true);
-  const [status, setStatus] = useState<'draft' | 'published'>('draft');
+  const [status, setStatus] = useState<"draft" | "published">("draft");
   const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState<string>('');
+  const [tagInput, setTagInput] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-
 
   useEffect(() => {
     if (currentProject) {
@@ -30,11 +29,11 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, currentProject }) =
       setStatus(currentProject.status);
       setTags(currentProject.tags);
     } else {
-      setProjectName('');
-      setProjectDescription('');
-      setProjectImage('https://placehold.co/250x250');
+      setProjectName("");
+      setProjectDescription("");
+      setProjectImage("https://placehold.co/250x250");
       setIsPublic(true);
-      setStatus('draft');
+      setStatus("draft");
       setTags([]);
     }
   }, [currentProject]);
@@ -57,7 +56,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, currentProject }) =
   const handleAddTag = () => {
     if (tagInput.trim()) {
       setTags([...tags, tagInput.trim()]);
-      setTagInput('');
+      setTagInput("");
     }
   };
 
@@ -68,7 +67,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, currentProject }) =
       Title: projectName,
       Description: projectDescription,
       "Image Source": projectImage,
-      publishedAt: status === 'published' ? currentProject?.publishedAt || new Date() : undefined,
+      publishedAt: status === "published" ? currentProject?.publishedAt || new Date() : undefined,
       public: isPublic,
       status,
       tags,
@@ -83,7 +82,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, currentProject }) =
       onSubmit(newProject);
     } catch (err) {
       if (err instanceof z.ZodError) {
-        setError("Validation failed: " + err.errors.map(e => e.message).join(", "));
+        setError("Validation failed: " + err.errors.map((e) => e.message).join(", "));
       }
     }
   };
@@ -101,7 +100,8 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, currentProject }) =
         <figcaption>Add picture for project</figcaption>
       </figure>
       <form id="projectForm" onSubmit={handleSubmit}>
-        <label htmlFor="PName">Project Title</label><br />
+        <label htmlFor="PName">Project Title</label>
+        <br />
         <input
           type="text"
           id="PName"
@@ -109,25 +109,30 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, currentProject }) =
           value={projectName}
           onChange={(e) => setProjectName(e.target.value)}
           required
-        /><br />
+        />
+        <br />
 
-        <label htmlFor="Description">Project Description</label><br />
+        <label htmlFor="Description">Project Description</label>
+        <br />
         <textarea
           name="Description"
           id="Description"
           value={projectDescription}
           onChange={(e) => setProjectDescription(e.target.value)}
           required
-        /><br />
+        />
+        <br />
 
-        <label htmlFor="projectImageInput">Select Project Image</label><br />
+        <label htmlFor="projectImageInput">Select Project Image</label>
+        <br />
         <input
           type="file"
           id="projectImageInput"
           name="projectImageInput"
           accept="image/*"
           onChange={handleImageChange}
-        /><br />
+        />
+        <br />
 
         <label>
           Public:
@@ -136,33 +141,45 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, currentProject }) =
             checked={isPublic}
             onChange={(e) => setIsPublic(e.target.checked)}
           />
-        </label><br />
+        </label>
+        <br />
 
-        <label htmlFor="status">Status:</label><br />
+        <label htmlFor="status">Status:</label>
+        <br />
         <select
           id="status"
           value={status}
-          onChange={(e) => setStatus(e.target.value as 'draft' | 'published')}
+          onChange={(e) => setStatus(e.target.value as "draft" | "published")}
         >
           <option value="draft">Draft</option>
           <option value="published">Published</option>
-        </select><br />
+        </select>
+        <br />
 
-        <label>Tags</label><br />
+        <label>Tags</label>
+        <br />
         <input
           type="text"
           value={tagInput}
           onChange={handleTagInputChange}
         />
-        <button type="button" onClick={handleAddTag}>Add Tag</button><br />
+        <button type="button" onClick={handleAddTag}>
+          Add Tag
+        </button>
+        <br />
         <ul>
           {tags.map((tag, index) => (
             <li key={index}>{tag}</li>
           ))}
-        </ul><br />
+        </ul>
+        <br />
 
-        <input type="submit" value={currentProject ? "Update Project" : "Create Project"} /><br />
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <input
+          type="submit"
+          value={currentProject ? "Update Project" : "Create Project"}
+        />
+        <br />
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
     </section>
   );

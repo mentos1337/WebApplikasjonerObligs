@@ -1,6 +1,6 @@
-import { useState, useCallback, useEffect } from 'react';
-import { fetchProjects, submitProject, deleteProject } from '../services/api';
-import { Project } from '../components/Types';
+import { useState, useCallback, useEffect } from "react";
+import { fetchProjects, submitProject, deleteProject } from "../services/api";
+import { Project } from "../components/Types";
 
 export function useProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -14,7 +14,7 @@ export function useProjects() {
       const data = await fetchProjects();
       setProjects(data);
     } catch (error) {
-      setError('Feilet ved henting av data');
+      setError("Feilet ved henting av data");
     } finally {
       setLoading(false);
     }
@@ -31,7 +31,7 @@ export function useProjects() {
       await fetchData();
       setCurrentProject(null);
     } catch (error) {
-      setError('Error submitting project');
+      setError("Error submitting project");
     } finally {
       setLoading(false);
     }
@@ -43,7 +43,7 @@ export function useProjects() {
       await deleteProject(projectId);
       await fetchData();
     } catch (error) {
-      setError('Error deleting project');
+      setError("Error deleting project");
     } finally {
       setLoading(false);
     }

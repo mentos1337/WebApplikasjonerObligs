@@ -4,16 +4,20 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"tsx honoserver/server.ts\"",
+    "dev": "concurrently \"vite\" \"npm --prefix honoserver run dev\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@hono/node-server": "^1.13.1",
+    "@hono/node-server": "^1.13.3",
+    "@t3-oss/env-core": "^0.11.1",
+    "better-sqlite3": "^11.5.0",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.4.5",
     "hono": "^4.6.3",
     "node": "^20.18.0",
+    "pino": "^9.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "uuid": "^10.0.0",
